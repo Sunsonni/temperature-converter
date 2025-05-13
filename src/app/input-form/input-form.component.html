@@ -1,11 +1,9 @@
 <h2>Temperature Calculator</h2>
-<form [formGroup]="f">
+<form [formGroup]="form">
   <label>°F </label>
-    <input type="number" formControlName="fahrenheit">
-    <button (click)="fromFtoC(f.controls.fahrenheit.value ?? 0)">to C</button>
-</form>
-<form [formGroup]="c">
+    <input type="text" formControlName="fahrenheit">
+    <button (click)="fromFtoC(form.controls.fahrenheit.value ?? '0')">to C</button>
   <label>°C </label>
-  <input type="number" step="0.1" formControlName="celsius"/>
-  <button (click)="fromCtoF(c.controls.celsius.value ?? 0)">to F</button>
+  <input type="text" formControlName="celsius"/>
+  <button (click)="fromCtoF(form.controls.celsius.value ?? '0')">to F</button>
 </form>

@@ -8,12 +8,9 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
   imports: [ReactiveFormsModule]
 })
 export class InputFormComponent implements OnInit {
-  f = new FormGroup({
-    fahrenheit: new FormControl<number|null>(null),
-  })
-
-  c = new FormGroup({
-    celsius: new FormControl<number | null>(null),
+  form = new FormGroup({
+    fahrenheit: new FormControl<string | null>(null),
+    celsius: new FormControl<string | null>(null)
   })
 
   
@@ -22,14 +19,19 @@ export class InputFormComponent implements OnInit {
 
   ngOnInit() {}
 
-  public fromFtoC(fahrenheit: number) {
-    let num = ((fahrenheit - 32) * 5/9).toFixed(1);
-    this.c.controls.celsius.setValue(Number(num));
+  public fromFtoC(fahrenheit: string) {
+    let num = ((Number(fahrenheit) - 32) * 5/9).toFixed(1);
+    this.form.controls.celsius.setValue(num);
+    console.log(this.form.controls.celsius.value);
+    this.form.controls.fahrenheit.setValue(fahrenheit);
   } 
 
-  public fromCtoF(celsius: number) {
-    let num = Math.round((celsius * 9/5) + 32);
-    this.f.controls.fahrenheit.setValue(num);
-  } 
+  public fromCtoF(celsius: string) {
+
+    let num = Math.round((Number(celsius) * 9/5) + 32);
+    this.form.controls.fahrenheit.setValue(num.toString());
+    let cel = parseFloat(celsius).toFixed(1);
+    this.form.controls.celsius.setValue(cel);
+  }
 
 }
