@@ -1,6 +1,7 @@
+<!-- TO DO: Redo key ups for enter. Make DRY -->
 <h2>Temperature Calculator</h2>
 <form [formGroup]="form">
-  <div (keyup.enter)="fromFtoC(form.controls.fahrenheit.value ?? '0')">
+  <div>
     <label>°F </label>
       <input 
         id ="inputF" 
@@ -8,7 +9,7 @@
         formControlName="fahrenheit"
       >
   </div>
-  <div (keyup.enter)="fromCtoF(form.controls.celsius.value ?? '0')">
+  <div>
     <label>°C </label>
     <input 
       id ="inputC" 
@@ -16,4 +17,14 @@
       formControlName="celsius" 
     >
   </div>
+   <div>
+    <label>°K </label>
+    <input 
+      id ="inputK" 
+      type="text" 
+      formControlName="kelvin" 
+    >
+  </div>
 </form> 
+
+<!-- (keyup.enter)="fromFtoC(form.controls.fahrenheit.value ?? '0')" -->
