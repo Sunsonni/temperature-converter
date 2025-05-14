@@ -13,11 +13,16 @@ export class InputFormComponent implements OnInit {
     celsius: new FormControl<string | null>(null)
   })
 
-  
-    
   constructor() { }
 
   ngOnInit() {}
+
+  public onBlur(temperature: string) {
+    if(temperature == this.form.controls.fahrenheit.value) {
+      this.fromFtoC(temperature);
+    }
+    this.fromCtoF(temperature);
+  }
 
   public fromFtoC(fahrenheit: string) {
     let num = ((Number(fahrenheit) - 32) * 5/9).toFixed(1);
@@ -27,7 +32,6 @@ export class InputFormComponent implements OnInit {
   } 
 
   public fromCtoF(celsius: string) {
-
     let num = Math.round((Number(celsius) * 9/5) + 32);
     this.form.controls.fahrenheit.setValue(num.toString());
     let cel = parseFloat(celsius).toFixed(1);
