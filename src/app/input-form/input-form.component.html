@@ -2,10 +2,18 @@
 <form [formGroup]="form">
   <div (keyup.enter)="fromFtoC(form.controls.fahrenheit.value ?? '0')">
     <label>°F </label>
-      <input type="text" formControlName="fahrenheit" (blur)="onBlur(form.controls.fahrenheit.value ?? '0')">
+      <input 
+        id ="inputF" 
+        type="text" 
+        formControlName="fahrenheit"
+      >
   </div>
   <div (keyup.enter)="fromCtoF(form.controls.celsius.value ?? '0')">
     <label>°C </label>
-    <input type="text" formControlName="celsius" (blur)="onBlur(form.controls.celsius.value ?? '0')"/>
+    <input 
+      id ="inputC" 
+      type="text" 
+      formControlName="celsius" 
+    >
   </div>
 </form> 

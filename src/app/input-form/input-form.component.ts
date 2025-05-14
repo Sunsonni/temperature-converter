@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-input-form',
@@ -8,26 +9,38 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
   imports: [ReactiveFormsModule]
 })
 export class InputFormComponent implements OnInit {
-  form = new FormGroup({
-    fahrenheit: new FormControl<string | null>(null),
-    celsius: new FormControl<string | null>(null)
-  })
+  form;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      fahrenheit: new FormControl('0', { updateOn: 'blur' }),
+      celsius: new FormControl('0', { updateOn: 'blur' }),
+    });
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form.controls.fahrenheit.valueChanges.pipe(distinctUntilChanged()).subscribe(x => {
+      console.log("f", this.fahrenheit?.value);
+      this.fromFtoC(this.fahrenheit?.value ?? '0');
+    })
 
-  public onBlur(temperature: string) {
-    if(temperature == this.form.controls.fahrenheit.value) {
-      this.fromFtoC(temperature);
-    }
-    this.fromCtoF(temperature);
+    this.form.controls.celsius.valueChanges.pipe(distinctUntilChanged()).subscribe(x => {
+      console.log('c', this.celsius?.value);
+      this.fromCtoF(this.celsius?.value ?? '0');
+    })
+  }
+
+  get fahrenheit() {
+    return this.form.get('fahrenheit');
+  }
+
+  get celsius() {
+    return this.form.get('celsius');
   }
 
   public fromFtoC(fahrenheit: string) {
     let num = ((Number(fahrenheit) - 32) * 5/9).toFixed(1);
     this.form.controls.celsius.setValue(num);
-    console.log(this.form.controls.celsius.value);
     this.form.controls.fahrenheit.setValue(fahrenheit);
   } 
 
@@ -38,4 +51,5 @@ export class InputFormComponent implements OnInit {
     this.form.controls.celsius.setValue(cel);
   }
 
+  
 }
