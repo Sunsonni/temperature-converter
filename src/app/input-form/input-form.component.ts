@@ -12,12 +12,13 @@ import { ConversionFunctions } from '../conversion-functions';
 export class InputFormComponent implements OnInit {
   form;
   conversion = new ConversionFunctions;
+  hiddenTemp = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       fahrenheit: new FormControl('32', { updateOn: 'blur' }),
       celsius: new FormControl('0.0', { updateOn: 'blur' }),
-      kelvin: new FormControl('273.15', { updateOn: 'blur' })
+      kelvin: new FormControl('273.15', { updateOn: 'blur' }),
     });
   }
 
@@ -26,14 +27,17 @@ export class InputFormComponent implements OnInit {
     this.form.controls.fahrenheit.valueChanges.pipe(distinctUntilChanged()).subscribe(x => {
       this.fromF(this.fahrenheit?.value ?? '0');
     })
+
     //Celsius Subscribe
     this.form.controls.celsius.valueChanges.pipe(distinctUntilChanged()).subscribe(x => {
-      this.fromC(this.celsius?.value ?? '0.0');
+      this.fromC(this.celsius?.value ?? '0.0'); 
     })
+
     //Kelvin Subscribe
     this.form.controls.kelvin.valueChanges.pipe(distinctUntilChanged()).subscribe(x => {
       this.fromK(this.kelvin?.value ?? '0.00');
     })
+
   }
 
   //Getters
@@ -66,24 +70,32 @@ export class InputFormComponent implements OnInit {
   }
 
   public fromF(fahrenheit: string) {
-    let cel = this.conversion.convertfromFtoC(fahrenheit);
+    this.hiddenTemp = parseFloat(fahrenheit).toFixed(1);
+    let cel = this.conversion.convertfromFtoC(this.hiddenTemp);
     this.setCelsius(cel);
-    let kel = this.conversion.convertfromCtoK(cel)
+    this.hiddenTemp = parseFloat(fahrenheit).toFixed(2);
+    let kel = this.conversion.convertfromFtoK(this.hiddenTemp);
     this.setKelvin(kel);
   } 
 
   public fromC(celsius: string) {
-    let fah = this.conversion.convertfromCtoF(celsius);
+    this.hiddenTemp = parseFloat(celsius).toFixed(0);
+    console.log(celsius);
+    console.log(this.hiddenTemp);
+    let fah = this.conversion.convertfromCtoF(this.hiddenTemp);
     this.setFahrenheit(fah);
-    let kel = this.conversion.convertfromCtoK(celsius)
+    this.hiddenTemp = parseFloat(this.hiddenTemp).toFixed(2);
+    let kel = this.conversion.convertfromFtoK(this.hiddenTemp);
     this.setKelvin(kel);
   }
 
   public fromK(kelvin: string) {
-    let cel = this.conversion.convertfromKtoC(kelvin);
-    this.setCelsius(cel);
-    let fah = this.conversion.convertfromCtoF(cel);
+    this.hiddenTemp = parseFloat(kelvin).toFixed(0);
+    let fah = this.conversion.convertfromKtoF(this.hiddenTemp);
     this.setFahrenheit(fah);
+    this.hiddenTemp = parseFloat(this.hiddenTemp).toFixed(1);
+    let cel = this.conversion.convertfromKtoC(this.hiddenTemp);
+    this.setCelsius(cel);
   }
 
 }

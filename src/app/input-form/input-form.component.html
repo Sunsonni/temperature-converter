@@ -1,7 +1,7 @@
 <!-- TO DO: Redo key ups for enter. Make DRY -->
-<h2>Temperature Calculator</h2>
-<form [formGroup]="form">
-  <div>
+<h2 class="title">Temperature Calculator</h2>
+<form [formGroup]="form" class="form">
+  <div class="line">
     <label>°F </label>
       <input 
         id ="inputF" 
@@ -9,7 +9,7 @@
         formControlName="fahrenheit"
       >
   </div>
-  <div>
+  <div class="line">
     <label>°C </label>
     <input 
       id ="inputC" 
@@ -17,7 +17,7 @@
       formControlName="celsius" 
     >
   </div>
-   <div>
+   <div class="line">
     <label>°K </label>
     <input 
       id ="inputK" 
