@@ -13,8 +13,8 @@ export class InputFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      fahrenheit: new FormControl('0', { updateOn: 'blur' }),
-      celsius: new FormControl('0', { updateOn: 'blur' }),
+      fahrenheit: new FormControl('32'),
+      celsius: new FormControl('0'),
     });
   }
 
@@ -39,16 +39,18 @@ export class InputFormComponent implements OnInit {
   }
 
   public fromFtoC(fahrenheit: string) {
-    let num = ((Number(fahrenheit) - 32) * 5/9).toFixed(1);
-    this.form.controls.celsius.setValue(num);
-    this.form.controls.fahrenheit.setValue(fahrenheit);
+    let num = ((Number(fahrenheit) - 32) * 5/9);
+    this.form.controls.celsius.setValue(num.toFixed(1));
+    const roundedF = Math.round(Number(fahrenheit));
+    this.form.controls.fahrenheit.setValue(Number.isFinite(roundedF) ? roundedF.toFixed(0) : '0');
   } 
 
   public fromCtoF(celsius: string) {
     let num = Math.round((Number(celsius) * 9/5) + 32);
     this.form.controls.fahrenheit.setValue(num.toString());
-    let cel = parseFloat(celsius).toFixed(1);
-    this.form.controls.celsius.setValue(cel);
+
+    const cel = parseFloat(celsius);
+    this.form.controls.celsius.setValue(Number.isFinite(cel) ? cel.toFixed(1) : '0.0');
   }
 
   
