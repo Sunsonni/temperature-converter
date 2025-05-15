@@ -1,14 +1,16 @@
-import { Component, OnInit, Input, inject, DestroyRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged} from 'rxjs';
 import { ConversionFunctions } from '../conversion-functions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TempButtonsComponent } from "./temp-buttons/temp-buttons.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-input-form',
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss'],
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, TempButtonsComponent, CommonModule],
 })
 export class InputFormComponent implements OnInit {
   form;
@@ -157,11 +159,15 @@ export class InputFormComponent implements OnInit {
     } else if (72 <= f && f < 90) {
       this.feelsLikeText = "Hot";
     } else if (90 <= f && f < 100) {
-      this.feelsLikeText = "A fever for adults or hotter than normal tap water";
+      this.feelsLikeText = "A fever for adults";
     } else if (f == 212) {
       this.feelsLikeText = "Boiling";
     } else if (f > 212) {
       this.feelsLikeText = "The sun's revenge";
     }
+  }
+
+  public buttons() {
+    console.log('something');
   }
 }

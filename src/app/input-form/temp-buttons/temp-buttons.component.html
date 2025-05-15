@@ -1,3 +1,8 @@
 <p>
-  temp-buttons works!
+  {{ feelsLikeText }}
 </p>
+
+  <div *ngFor="let item of buttonValues">
+    <button>{{ item.type }}</button>
+    
+  </div>
