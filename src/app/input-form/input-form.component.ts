@@ -30,7 +30,7 @@ export class InputFormComponent implements OnInit {
     this.form.controls.fahrenheit.valueChanges
       .pipe(
         distinctUntilChanged(),
-        debounceTime(500),
+        debounceTime(300),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(x => {

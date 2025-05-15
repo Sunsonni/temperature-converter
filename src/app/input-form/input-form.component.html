@@ -4,27 +4,31 @@
   <div class="line">
     <label>°F </label>
       <input 
-        id ="inputF" 
+        #fahrenheitRef 
         type="text" 
         formControlName="fahrenheit"
+        (keyup.enter)="runConversion('f', fahrenheitRef.value)"
       >
   </div>
   <div class="line">
     <label>°C </label>
     <input 
-      id ="inputC" 
+      #celsiusRef
       type="text" 
-      formControlName="celsius" 
+      formControlName="celsius"
+      (keyup.enter)="runConversion('c', celsiusRef.value)" 
     >
   </div>
    <div class="line">
     <label>°K </label>
     <input 
-      id ="inputK" 
+      #kelvinRef 
       type="text" 
-      formControlName="kelvin" 
+      formControlName="kelvin"
+      (keyup.enter)="runConversion('k', kelvinRef.value)" 
     >
   </div>
 </form> 
-
-<!-- (keyup.enter)="fromFtoC(form.controls.fahrenheit.value ?? '0')" -->
+<div>
+  <h5>This is what it feels like: </h5>
+</div>
