@@ -1,34 +1,38 @@
 <!-- TO DO: Redo key ups for enter. Make DRY -->
-<h2 class="title">Temperature Calculator</h2>
-<form [formGroup]="form" class="form">
-  <div class="line">
-    <label>°F </label>
+<div class="component">
+  <h2 class="title">Temperature Calculator</h2>
+  <form [formGroup]="form" class="form">
+    <div class="line">
+      <label>°F </label>
+        <input 
+          #fahrenheitRef 
+          type="text" 
+          formControlName="fahrenheit"
+          (keyup.enter)="runConversion('f', fahrenheitRef.value)"
+        >
+    </div>
+    <div class="line">
+      <label>°C </label>
       <input 
-        #fahrenheitRef 
+        #celsiusRef
         type="text" 
-        formControlName="fahrenheit"
-        (keyup.enter)="runConversion('f', fahrenheitRef.value)"
+        formControlName="celsius"
+        (keyup.enter)="runConversion('c', celsiusRef.value)" 
       >
+    </div>
+    <div class="line">
+      <label>°K </label>
+      <input 
+        #kelvinRef 
+        type="text" 
+        formControlName="kelvin"
+        (keyup.enter)="runConversion('k', kelvinRef.value)" 
+      >
+    </div>
+  </form> 
+   <div> 
+    <h3>This is what it feels like: </h3>
+    <p style="text-align: center;"> {{ feelsLikeText }}</p>
   </div>
-  <div class="line">
-    <label>°C </label>
-    <input 
-      #celsiusRef
-      type="text" 
-      formControlName="celsius"
-      (keyup.enter)="runConversion('c', celsiusRef.value)" 
-    >
-  </div>
-   <div class="line">
-    <label>°K </label>
-    <input 
-      #kelvinRef 
-      type="text" 
-      formControlName="kelvin"
-      (keyup.enter)="runConversion('k', kelvinRef.value)" 
-    >
-  </div>
-</form> 
-<div>
-  <h5>This is what it feels like: </h5>
+  
 </div>

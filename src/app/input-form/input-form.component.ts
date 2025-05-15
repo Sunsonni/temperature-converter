@@ -16,6 +16,7 @@ export class InputFormComponent implements OnInit {
   rawFahrenheit = '';
   hasRun = false;
   destroyRef = inject(DestroyRef);
+  feelsLikeText = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -139,6 +140,28 @@ export class InputFormComponent implements OnInit {
         break;
       default:
         console.error("Unexpected type in runConversion", type);
+    }
+    this.feelsLike(this.rawFahrenheit)
+  }
+
+  public feelsLike(value: string) {
+    let f = parseFloat(value);
+    if (f < -459.67) {
+      this.feelsLikeText = "Not even possible buddy";
+    } else if (-459.67 <= f && f < 32) {
+      this.feelsLikeText = "Absolute Zero";
+    } else if (32 <= f && f < 50) {
+      this.feelsLikeText = "Sweater Weather";
+    } else if (50 <= f && f < 72) {
+      this.feelsLikeText = "Nice";
+    } else if (72 <= f && f < 90) {
+      this.feelsLikeText = "Hot";
+    } else if (90 <= f && f < 100) {
+      this.feelsLikeText = "A fever for adults or hotter than normal tap water";
+    } else if (f == 212) {
+      this.feelsLikeText = "Boiling";
+    } else if (f > 212) {
+      this.feelsLikeText = "The sun's revenge";
     }
   }
 }

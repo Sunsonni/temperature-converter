@@ -1,6 +1,8 @@
-.title {
+.component {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .form {
@@ -15,4 +17,8 @@
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+}
+
+.feels-like {
+    background-color: aqua;
 }
