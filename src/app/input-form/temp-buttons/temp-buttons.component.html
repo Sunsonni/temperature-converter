@@ -1,8 +1,3 @@
-<p>
-  {{ feelsLikeText }}
-</p>
-
-  <div *ngFor="let item of buttonValues">
-    <button>{{ item.type }}</button>
-    
-  </div>
+<div *ngFor="let item of buttonValues" class="buttons">
+  <button (click)="onClick(item.default)">{{ item.name }}</button>
+</div>

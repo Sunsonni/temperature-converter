@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
 
 @Component({
@@ -8,21 +8,25 @@ import { NgFor, CommonModule } from '@angular/common';
   imports: [NgFor, CommonModule]
 })
 export class TempButtonsComponent implements OnInit {
-  @Input() feelsLikeText?: string;
+  @Output() triggered = new EventEmitter<string>();
    buttonValues = [
-    {type: "Not even possible buddy", action: 'apples'},
-    {type: "Absolute Zero"},
-    {type: "Frozen"},
-    {type: "Sweater Weather"},
-    {type: "Nice"},
-    {type: "Hot"},
-    {type: "A fever for adults"},
-    {type: "Boiling"},
-    {type: "The sun's revenge"},
+    { name: "Not even possible buddy", default: '-500'},
+    { name: "Absolute Zero", default: '-459'},
+    { name: "Frozen", default: '32'},
+    { name: "Sweater Weather", default: '50'},
+    { name: "Nice", default: '72'},
+    { name: "Hot", default: '90'},
+    { name: "A fever for adults", default: '100'},
+    { name: "Boiling", default: '212'},
+    { name: "The sun's revenge", default: '500'},
   ]
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public onClick(value: string) {
+    this.triggered.emit(value);
   }
 
 }

@@ -127,6 +127,7 @@ export class InputFormComponent implements OnInit {
         this.setKelvin(kel);
         cel = this.conversion.convertfromFtoC(this.rawFahrenheit);
         this.setCelsius(cel);
+        this.setFahrenheit(value)
         break;
       case 'c':
         kel = this.conversion.convertfromFtoK(this.rawFahrenheit);

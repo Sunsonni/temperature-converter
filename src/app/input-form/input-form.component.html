@@ -34,5 +34,5 @@
     <h3>This is what it feels like: </h3>
     <p style="text-align: center;"> {{ feelsLikeText }}</p>
   </div>
- <app-temp-buttons [feelsLikeText] = "feelsLikeText"></app-temp-buttons>
+ <app-temp-buttons (triggered) = "runConversion('f', $event)"></app-temp-buttons>
 </div>
