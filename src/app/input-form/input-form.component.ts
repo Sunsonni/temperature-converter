@@ -6,6 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TempButtonsComponent } from "./components/temp-buttons/temp-buttons.component";
 import { CommonModule } from '@angular/common';
 import { ColorChangerComponent } from './components/color-changer/color-changer.component';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-input-form',
@@ -27,7 +28,7 @@ export class InputFormComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   feelsLikeText = '';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedService) {
     this.form = this.formBuilder.group({
       fahrenheit: new FormControl('32', { updateOn: 'blur' }),
       celsius: new FormControl('0.0', { updateOn: 'blur' }),
@@ -68,6 +69,12 @@ export class InputFormComponent implements OnInit {
       .subscribe(x => {
         this.runConversion('k', this.kelvin?.value ?? '0.00');
     })
+
+    this.sharedService.event$.subscribe(x => {
+      console.log("subscribe for service is working");
+      this.runConversion('f', x.default);
+    })
+    
 
   }
 
@@ -151,7 +158,7 @@ export class InputFormComponent implements OnInit {
       default:
         console.error("Unexpected type in runConversion", type);
     }
-    this.feelsLike(this.rawFahrenheit)
+    this.feelsLike(this.rawFahrenheit);
   }
 
   public feelsLike(value: string) {

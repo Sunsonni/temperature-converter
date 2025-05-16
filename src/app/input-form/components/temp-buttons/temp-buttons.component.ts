@@ -11,7 +11,6 @@ import { Button } from '../../../interfaces/button';
 })
 
 export class TempButtonsComponent implements OnInit {
-  @Output() triggered = new EventEmitter<string>();
 
    buttonValues: Button[] = [
     { name: "Not even possible buddy", default: '-500', barColor: '#3345ff'},
@@ -35,8 +34,8 @@ export class TempButtonsComponent implements OnInit {
       button.default = this.randomNumber();
     }
     //TODO: change emit to subscribe for service
-    this.triggered.emit(button.default);
     this.notifySibling(button);
+    this.sharedService.emitToParent(button);
   }
 
   private randomNumber() {
@@ -45,7 +44,16 @@ export class TempButtonsComponent implements OnInit {
     return value;
   }
 
+  private setRandomBarColor(button: Button) {
+    if(button.barColor == 'random') {
+      button
+    }
+  }
+
   private notifySibling(item: Button) {
+    if(item.barColor == 'random') {
+
+    }
     this.sharedService.sendMessage(item);
   }
 

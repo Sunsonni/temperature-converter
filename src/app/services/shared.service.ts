@@ -7,10 +7,14 @@ import { Button } from '../interfaces/button';
 })
 export class SharedService {
   private eventSource = new Subject<Button>();
-
   event$ = this.eventSource.asObservable();
 
+
   sendMessage(item: Button) {
+    this.eventSource.next(item);
+  }
+
+  emitToParent(item: Button) {
     this.eventSource.next(item);
   }
 
