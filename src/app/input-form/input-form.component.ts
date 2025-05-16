@@ -153,13 +153,13 @@ export class InputFormComponent implements OnInit {
       this.feelsLikeText = "Not even possible buddy";
     } else if (-459.67 <= f && f < 32) {
       this.feelsLikeText = "Absolute Zero";
-    } else if (32 <= f && f < 50) {
+    } else if (32 <= f && f <= 50) {
       this.feelsLikeText = "Sweater Weather";
-    } else if (50 <= f && f < 72) {
+    } else if (50 < f && f <= 72) {
       this.feelsLikeText = "Nice";
-    } else if (72 <= f && f < 90) {
+    } else if (72 < f && f <= 90) {
       this.feelsLikeText = "Hot";
-    } else if (90 <= f && f < 100) {
+    } else if (90 < f && f < 100) {
       this.feelsLikeText = "A fever for adults";
     } else if (f == 212) {
       this.feelsLikeText = "Boiling";

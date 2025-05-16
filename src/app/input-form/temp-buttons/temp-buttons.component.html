@@ -1,3 +1,9 @@
-<div *ngFor="let item of buttonValues" class="buttons">
-  <button (click)="onClick(item.default)">{{ item.name }}</button>
+<div class="container">
+  <div *ngFor="let button of buttonValues" class="buttons">
+    <button 
+    (click)="onClick(button)"
+    >
+      {{ button.name }}
+    </button>
+  </div>
 </div>
