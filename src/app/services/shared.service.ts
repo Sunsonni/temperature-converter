@@ -7,15 +7,24 @@ import { Button } from '../interfaces/button';
 })
 export class SharedService {
   private eventSource = new Subject<Button>();
+  private barColor = new Subject<String>();
   event$ = this.eventSource.asObservable();
-
+  color$ = this.eventSource.asObservable();
 
   sendMessage(item: Button) {
     this.eventSource.next(item);
   }
 
+  emitToService(item: Button) {
+    this.eventSource.next(item);
+  }
+
   emitToParent(item: Button) {
     this.eventSource.next(item);
+  }
+
+  emitToColor(barColor: string) {
+    this.barColor.next(barColor);
   }
 
 }

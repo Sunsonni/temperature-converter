@@ -11,9 +11,11 @@ export class ColorChangerComponent implements OnInit {
   constructor(private sharedService: SharedService ) { }
 
   ngOnInit() {
-    this.sharedService.event$.subscribe(item => {
-      this.barColor = item.barColor;
-      console.log(this.barColor);
+    this.sharedService.color$.subscribe(color => {
+      if(color.barColor == 'random') {
+
+      }
+      this.barColor = color.barColor;
     });
   }
 

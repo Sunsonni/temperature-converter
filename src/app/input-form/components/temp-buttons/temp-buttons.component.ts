@@ -11,6 +11,7 @@ import { Button } from '../../../interfaces/button';
 })
 
 export class TempButtonsComponent implements OnInit {
+  tempValue = '';
 
    buttonValues: Button[] = [
     { name: "Not even possible buddy", default: '-500', barColor: '#3345ff'},
@@ -22,7 +23,7 @@ export class TempButtonsComponent implements OnInit {
     { name: "A fever for adults", default: '100', barColor: '#ffe133'},
     { name: "Boiling", default: '212', barColor: '#ffac33'},
     { name: "The sun's revenge", default: '500', barColor: '#ff3333'},
-    { name: "Random", default: this.randomNumber(), barColor: 'random'},
+    { name: "Random", default: this.randomNumber(), barColor: this.tempValue},
   ]
   constructor(private sharedService: SharedService) {}
 
@@ -41,13 +42,8 @@ export class TempButtonsComponent implements OnInit {
   private randomNumber() {
     let value = Math.floor((Math.random()) * 100).toFixed(1);
     console.log("random number is activated ", value);
+    this.tempValue = value;
     return value;
-  }
-
-  private setRandomBarColor(button: Button) {
-    if(button.barColor == 'random') {
-      button
-    }
   }
 
   private notifySibling(item: Button) {

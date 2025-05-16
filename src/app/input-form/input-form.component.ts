@@ -73,6 +73,7 @@ export class InputFormComponent implements OnInit {
     this.sharedService.event$.subscribe(x => {
       console.log("subscribe for service is working");
       this.runConversion('f', x.default);
+      this.sharedService.emitToColor(this.feelsLikeText);
     })
     
 
