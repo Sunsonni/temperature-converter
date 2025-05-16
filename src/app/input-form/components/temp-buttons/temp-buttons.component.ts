@@ -5,7 +5,8 @@ import { SharedService } from '../../../services/shared.service';
 
 interface Item {
   name: string,
-  default: string
+  default: string,
+  barColor: string
 }
 
 @Component({
@@ -19,16 +20,16 @@ export class TempButtonsComponent implements OnInit {
   @Output() triggered = new EventEmitter<string>();
 
    buttonValues: Item[] = [
-    { name: "Not even possible buddy", default: '-500'},
-    { name: "Absolute Zero", default: '-459'},
-    { name: "Frozen", default: '30'},
-    { name: "Sweater Weather", default: '40'},
-    { name: "Nice", default: '72'},
-    { name: "Hot", default: '90'},
-    { name: "A fever for adults", default: '100'},
-    { name: "Boiling", default: '212'},
-    { name: "The sun's revenge", default: '500'},
-    { name: "Random", default: this.randomNumber()},
+    { name: "Not even possible buddy", default: '-500', barColor: '#3345ff'},
+    { name: "Absolute Zero", default: '-459', barColor: '#3376ff'},
+    { name: "Frozen", default: '30', barColor: '#33b3ff'},
+    { name: "Sweater Weather", default: '40', barColor: '#33ffe8'},
+    { name: "Nice", default: '72', barColor: '#33ffbd'},
+    { name: "Hot", default: '90', barColor: '#e4ff33'},
+    { name: "A fever for adults", default: '100', barColor: '#ffe133'},
+    { name: "Boiling", default: '212', barColor: '#ffac33'},
+    { name: "The sun's revenge", default: '500', barColor: '#ff3333'},
+    { name: "Random", default: this.randomNumber(), barColor: 'random'},
   ]
   constructor(private sharedService: SharedService) {}
 
@@ -39,8 +40,9 @@ export class TempButtonsComponent implements OnInit {
     if(button.name == "Random") {
       button.default = this.randomNumber();
     }
+    //TODO: change emit to subscribe for service
     this.triggered.emit(button.default);
-    this.notifySibling();
+    this.notifySibling(button.barColor);
   }
 
   private randomNumber() {
@@ -49,8 +51,8 @@ export class TempButtonsComponent implements OnInit {
     return value;
   }
 
-  private notifySibling () {
-    this.sharedService.sendMessage('Triggered by temp buttons');
+  private notifySibling(name: string) {
+    this.sharedService.sendMessage(name);
   }
 
 }

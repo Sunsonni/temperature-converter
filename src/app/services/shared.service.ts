@@ -9,8 +9,8 @@ export class SharedService {
 
   event$ = this.eventSource.asObservable();
 
-  sendMessage(message: string) {
-    this.eventSource.next(message);
+  sendMessage(name: string) {
+    this.eventSource.next(name);
   }
 
 }

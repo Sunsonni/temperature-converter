@@ -7,12 +7,13 @@ import { SharedService } from '../../../services/shared.service';
   styleUrls: ['./color-changer.component.scss']
 })
 export class ColorChangerComponent implements OnInit {
-  message = '';
+  barColor: string = 'gray';
   constructor(private sharedService: SharedService ) { }
 
   ngOnInit() {
-    this.sharedService.event$.subscribe(msg => {
-      this.message = msg;
+    this.sharedService.event$.subscribe(color => {
+      this.barColor = color;
+      console.log(this.barColor);
     });
   }
 
