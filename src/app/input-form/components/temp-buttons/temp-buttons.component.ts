@@ -1,13 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
 import { SharedService } from '../../../services/shared.service';
-
-
-interface Item {
-  name: string,
-  default: string,
-  barColor: string
-}
+import { Button } from '../../../interfaces/button';
 
 @Component({
   selector: 'app-temp-buttons',
@@ -19,7 +13,7 @@ interface Item {
 export class TempButtonsComponent implements OnInit {
   @Output() triggered = new EventEmitter<string>();
 
-   buttonValues: Item[] = [
+   buttonValues: Button[] = [
     { name: "Not even possible buddy", default: '-500', barColor: '#3345ff'},
     { name: "Absolute Zero", default: '-459', barColor: '#3376ff'},
     { name: "Frozen", default: '30', barColor: '#33b3ff'},
@@ -36,13 +30,13 @@ export class TempButtonsComponent implements OnInit {
   ngOnInit() {
   }
 
-  public onClick(button: Item) {
+  public onClick(button: Button) {
     if(button.name == "Random") {
       button.default = this.randomNumber();
     }
     //TODO: change emit to subscribe for service
     this.triggered.emit(button.default);
-    this.notifySibling(button.barColor);
+    this.notifySibling(button);
   }
 
   private randomNumber() {
@@ -51,8 +45,8 @@ export class TempButtonsComponent implements OnInit {
     return value;
   }
 
-  private notifySibling(name: string) {
-    this.sharedService.sendMessage(name);
+  private notifySibling(item: Button) {
+    this.sharedService.sendMessage(item);
   }
 
 }
