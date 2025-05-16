@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
+import { SharedService } from '../../../services/shared.service';
 
 
 interface Item {
@@ -16,6 +17,7 @@ interface Item {
 
 export class TempButtonsComponent implements OnInit {
   @Output() triggered = new EventEmitter<string>();
+
    buttonValues: Item[] = [
     { name: "Not even possible buddy", default: '-500'},
     { name: "Absolute Zero", default: '-459'},
@@ -28,7 +30,7 @@ export class TempButtonsComponent implements OnInit {
     { name: "The sun's revenge", default: '500'},
     { name: "Random", default: this.randomNumber()},
   ]
-  constructor() { }
+  constructor(private sharedService: SharedService) {}
 
   ngOnInit() {
   }
@@ -38,12 +40,17 @@ export class TempButtonsComponent implements OnInit {
       button.default = this.randomNumber();
     }
     this.triggered.emit(button.default);
+    this.notifySibling();
   }
 
   private randomNumber() {
     let value = Math.floor((Math.random()) * 100).toFixed(1);
     console.log("random number is activated ", value);
     return value;
+  }
+
+  private notifySibling () {
+    this.sharedService.sendMessage('Triggered by temp buttons');
   }
 
 }

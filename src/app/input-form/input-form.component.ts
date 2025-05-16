@@ -3,15 +3,22 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged} from 'rxjs';
 import { ConversionFunctions } from '../conversion-functions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TempButtonsComponent } from "./temp-buttons/temp-buttons.component";
+import { TempButtonsComponent } from "./components/temp-buttons/temp-buttons.component";
 import { CommonModule } from '@angular/common';
+import { ColorChangerComponent } from './components/color-changer/color-changer.component';
 
 @Component({
   selector: 'app-input-form',
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss'],
-  imports: [ReactiveFormsModule, TempButtonsComponent, CommonModule],
+  imports: [
+    ReactiveFormsModule, 
+    TempButtonsComponent, 
+    ColorChangerComponent, 
+    CommonModule
+  ]
 })
+
 export class InputFormComponent implements OnInit {
   form;
   conversion = new ConversionFunctions;
@@ -166,9 +173,5 @@ export class InputFormComponent implements OnInit {
     } else if (f > 212) {
       this.feelsLikeText = "The sun's revenge";
     }
-  }
-
-  public buttons() {
-    console.log('something');
   }
 }
