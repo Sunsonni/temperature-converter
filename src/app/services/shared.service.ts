@@ -33,22 +33,12 @@ export class SharedService {
     return this.buttonValues;
   }
 
-  sendMessage(item: Button) {
-    this.eventSource.next(item);
-  }
-
   emitToService(item: Button) {
     if(item.name === 'Random') {
       const randomValue = this.boxMullerRandomNum().toString();
       console.log(randomValue);
       const barColor = this.getBarColorFromValue(randomValue);
-      
-      const randomButton: Button = {
-        name: 'Random',
-        default: randomValue,
-        barColor: barColor
-      };
-      this.eventSource.next(randomButton);
+    
       this.barColor.next(barColor);
       this.feelsLike(randomValue);
       console.log('random is running. feels like is ' + this.feelsLikeText);
@@ -108,7 +98,6 @@ export class SharedService {
     return '#ff3333';
   }
 
-
   public feelsLike(value: string) {
     let f = parseFloat(value);
 
@@ -121,7 +110,6 @@ export class SharedService {
     if (100 <= f && f < 212) this.feelsLikeText.next("A fever for adults");
     if (f == 212) this.feelsLikeText.next("Boiling");
     if (f > 212) this.feelsLikeText.next("The sun's revenge");
-    console.log("feels like value is " + f);
   }
   
 }
