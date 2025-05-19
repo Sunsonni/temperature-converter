@@ -51,7 +51,7 @@ export class SharedService {
       this.eventSource.next(randomButton);
       this.barColor.next(barColor);
       this.feelsLike(randomValue);
-      console.log('random is running. Barcolor is ' + barColor);
+      console.log('random is running. feels like is ' + this.feelsLikeText);
 
     } else {
       this.eventSource.next(item);
@@ -100,6 +100,8 @@ export class SharedService {
     if (72 < f && f <= 90) return '#e4ff33';
     //Hot
     if (90 < f && f < 100) return '#ffe113';
+    //A fever for adults
+    if (100 <= f && f < 212) return '#ffe133';
     //Boiling
     if (f == 212) return '#ffac33';
     //The sun's revenge
@@ -109,23 +111,16 @@ export class SharedService {
 
   public feelsLike(value: string) {
     let f = parseFloat(value);
-    if (f < -459.67) {
-      this.feelsLikeText.next("Not even possible buddy");
-    } else if (-459.67 <= f && f < 32) {
-      this.feelsLikeText.next("Absolute Zero");
-    } else if (32 <= f && f <= 50) {
-      this.feelsLikeText.next("Sweater Weather");
-    } else if (50 < f && f <= 72) {
-      this.feelsLikeText.next("Nice");
-    } else if (72 < f && f <= 90) {
-      this.feelsLikeText.next("Hot");
-    } else if (90 < f && f < 100) {
-      this.feelsLikeText.next("A fever for adults");
-    } else if (f == 212) {
-      this.feelsLikeText.next("Boiling");
-    } else if (f > 212) {
-      this.feelsLikeText.next("The sun's revenge");
-    }
+
+    if (f < -459.67) this.feelsLikeText.next("Not even possible buddy");
+    if (-459.67 <= f && f < 32) this.feelsLikeText.next("Absolute Zero");
+    if (32 <= f && f <= 50) this.feelsLikeText.next("Frozen");
+    if (50 < f && f <= 72) this.feelsLikeText.next("Sweater Weather");
+    if (72 < f && f <= 90) this.feelsLikeText.next("Nice");
+    if (90 < f && f < 100) this.feelsLikeText.next("Hot");
+    if (100 <= f && f < 212) this.feelsLikeText.next("A fever for adults");
+    if (f == 212) this.feelsLikeText.next("Boiling");
+    if (f > 212) this.feelsLikeText.next("The sun's revenge");
     console.log("feels like value is " + f);
   }
   
