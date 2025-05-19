@@ -136,9 +136,9 @@ export class InputFormComponent implements OnInit {
 
   public runConversion(type: string, value: string) {
     this.hasRun = true;
-    this.setRawFahrenheitConversion(type, value)
+    this.setRawFahrenheitConversion(type, value);
     this.sharedService.feelsLike(this.rawFahrenheit);
-    // console.log(this.rawFahrenheit);
+    this.sharedService.setFeelsLikeAndColor(this.rawFahrenheit);
     let kel;
     let cel;
     switch(type) {

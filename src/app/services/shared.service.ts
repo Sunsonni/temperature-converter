@@ -40,8 +40,9 @@ export class SharedService {
   emitToService(item: Button) {
     if(item.name === 'Random') {
       const randomValue = this.boxMullerRandomNum().toString();
+      console.log(randomValue);
       const barColor = this.getBarColorFromValue(randomValue);
-
+      
       const randomButton: Button = {
         name: 'Random',
         default: randomValue,
@@ -49,8 +50,9 @@ export class SharedService {
       };
       this.eventSource.next(randomButton);
       this.barColor.next(barColor);
-      this.feelsLike(randomButton.default)
+      this.feelsLike(randomValue);
       console.log('random is running. Barcolor is ' + barColor);
+
     } else {
       this.eventSource.next(item);
       this.barColor.next(item.barColor);
@@ -60,8 +62,9 @@ export class SharedService {
 
   }
 
-  emitToColor(barColor: string) {
-    this.barColor.next(barColor);
+  setFeelsLikeAndColor(value: string) {
+    this.barColor.next(this.getBarColorFromValue(value));
+    this.feelsLike(value);
   }
 
   private boxMullerRandomNum() {
@@ -73,7 +76,7 @@ export class SharedService {
 
     const z0 = r * Math.cos(theta);
     
-    const mean = 50;
+    const mean = 75;
     const stdDev = 100;
 
     const rawValue = mean + stdDev * z0;
@@ -123,6 +126,7 @@ export class SharedService {
     } else if (f > 212) {
       this.feelsLikeText.next("The sun's revenge");
     }
+    console.log("feels like value is " + f);
   }
   
 }
