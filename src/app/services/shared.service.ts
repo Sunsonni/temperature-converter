@@ -24,8 +24,10 @@ export class SharedService {
     { name: "A fever for adults", default: '100', barColor: '#ffe133'},
     { name: "Boiling", default: '212', barColor: '#ffac33'},
     { name: "The sun's revenge", default: '500', barColor: '#ff3333'},
-    { name: "Random", default: this.randomNumber(), barColor: ''},
+    { name: "Random", default: "", barColor: ''},
   ]
+
+  // this.randomNumber()
 
   getButtons() {
     return this.buttonValues;
@@ -37,7 +39,7 @@ export class SharedService {
 
   emitToService(item: Button) {
     if(item.name === 'Random') {
-      const randomValue = this.randomNumber();
+      const randomValue = this.boxMullerRandomNum().toString();
       const barColor = this.getBarColorFromValue(randomValue);
 
       const randomButton: Button = {
@@ -47,11 +49,13 @@ export class SharedService {
       };
       this.eventSource.next(randomButton);
       this.barColor.next(barColor);
-      console.log('random is running');
+      this.feelsLike(randomButton.default)
+      console.log('random is running. Barcolor is ' + barColor);
     } else {
       this.eventSource.next(item);
       this.barColor.next(item.barColor);
       this.feelsLike(item.default);
+      console.log("other section running. Feels like is " + item.default);
     }
 
   }
@@ -60,31 +64,43 @@ export class SharedService {
     this.barColor.next(barColor);
   }
 
-  private randomNumber() {
-    let value = Math.floor((Math.random()) * 100).toFixed(1);
-    console.log("random number is activated ", value);
-    return value;
+  private boxMullerRandomNum() {
+    const u1 = Math.random();
+    const u2 = Math.random();
+
+    const r = Math.sqrt(-2.0 * Math.log(u1));
+    const theta = 2.0 * Math.PI * u2;
+
+    const z0 = r * Math.cos(theta);
+    
+    const mean = 50;
+    const stdDev = 100;
+
+    const rawValue = mean + stdDev * z0;
+    const range = Math.max(-500, Math.min(300, rawValue));
+
+    return range;
   }
 
   private getBarColorFromValue(value: string): string {
     const f  = parseFloat(value);
     this.feelsLike(value);
-    //Not even possible buddy
-    if (f < -459) return '#3345ff'; 
-    // Absolute Zero
-    if (f < 32) return '#3376ff'; 
-    // Frozen     
-    if (f < 50) return '#33b3ff';
-    // Sweater Weather      
-    if (f < 72) return '#33ffe8';
-    // Nice      
-    if (f < 90) return '#33ffbd'; 
-    // Hot     
-    if (f < 100) return '#e4ff33';   
-    // Boiling  
-    if (f === 212) return '#ffac33';
-    //The sun's revenge   
-    return '#ff3333';  
+    //not possible
+    if (f < -459.67) return '#3345ff'; 
+    //absolute zero
+    if (-459.67 <= f && f < 32) return '#3376ff';
+    //Frozen
+    if (32 <= f && f <= 50) return '#33b3ff';
+    //Sweater Weather
+    if (50 < f && f <= 72) return '#33ffe8';
+    //Nice
+    if (72 < f && f <= 90) return '#e4ff33';
+    //Hot
+    if (90 < f && f < 100) return '#ffe113';
+    //Boiling
+    if (f == 212) return '#ffac33';
+    //The sun's revenge
+    return '#ff3333';
   }
 
 
@@ -92,7 +108,6 @@ export class SharedService {
     let f = parseFloat(value);
     if (f < -459.67) {
       this.feelsLikeText.next("Not even possible buddy");
-      
     } else if (-459.67 <= f && f < 32) {
       this.feelsLikeText.next("Absolute Zero");
     } else if (32 <= f && f <= 50) {
@@ -109,6 +124,5 @@ export class SharedService {
       this.feelsLikeText.next("The sun's revenge");
     }
   }
-
   
 }

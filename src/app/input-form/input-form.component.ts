@@ -71,13 +71,12 @@ export class InputFormComponent implements OnInit {
     })
 
     this.sharedService.event$.subscribe(x => {
-      console.log("When are you happening?");
       this.runConversion('f', x.default);
-      this.sharedService.emitToColor(this.feelsLikeText);
+      // this.sharedService.emitToColor(this.feelsLikeText);
     })
 
     this.sharedService.text$.subscribe(x => {
-      console.log("text subscribe is working");
+      console.log("text subscribe is working " + x);
       this.feelsLikeText = x;
     })
     
@@ -112,7 +111,6 @@ export class InputFormComponent implements OnInit {
   public setKelvin(value: string) {
     const kel = parseFloat(value);
     this.form.controls.kelvin.patchValue((Number.isFinite(kel) ? kel.toFixed(2) : '0.00'), {emitEvent: false, onlySelf: true});
-    console.log(this.kelvin?.value);
   }
 
   private fixedPlacement(value: string, fixedPlace: number) : string{
@@ -140,6 +138,7 @@ export class InputFormComponent implements OnInit {
     this.hasRun = true;
     this.setRawFahrenheitConversion(type, value)
     this.sharedService.feelsLike(this.rawFahrenheit);
+    // console.log(this.rawFahrenheit);
     let kel;
     let cel;
     switch(type) {
