@@ -71,9 +71,14 @@ export class InputFormComponent implements OnInit {
     })
 
     this.sharedService.event$.subscribe(x => {
-      console.log("subscribe for service is working");
+      console.log("When are you happening?");
       this.runConversion('f', x.default);
       this.sharedService.emitToColor(this.feelsLikeText);
+    })
+
+    this.sharedService.text$.subscribe(x => {
+      console.log("text subscribe is working");
+      this.feelsLikeText = x;
     })
     
 
@@ -134,6 +139,7 @@ export class InputFormComponent implements OnInit {
   public runConversion(type: string, value: string) {
     this.hasRun = true;
     this.setRawFahrenheitConversion(type, value)
+    this.sharedService.feelsLike(this.rawFahrenheit);
     let kel;
     let cel;
     switch(type) {
@@ -158,28 +164,6 @@ export class InputFormComponent implements OnInit {
         break;
       default:
         console.error("Unexpected type in runConversion", type);
-    }
-    this.feelsLike(this.rawFahrenheit);
-  }
-
-  public feelsLike(value: string) {
-    let f = parseFloat(value);
-    if (f < -459.67) {
-      this.feelsLikeText = "Not even possible buddy";
-    } else if (-459.67 <= f && f < 32) {
-      this.feelsLikeText = "Absolute Zero";
-    } else if (32 <= f && f <= 50) {
-      this.feelsLikeText = "Sweater Weather";
-    } else if (50 < f && f <= 72) {
-      this.feelsLikeText = "Nice";
-    } else if (72 < f && f <= 90) {
-      this.feelsLikeText = "Hot";
-    } else if (90 < f && f < 100) {
-      this.feelsLikeText = "A fever for adults";
-    } else if (f == 212) {
-      this.feelsLikeText = "Boiling";
-    } else if (f > 212) {
-      this.feelsLikeText = "The sun's revenge";
     }
   }
 }
