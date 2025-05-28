@@ -76,7 +76,6 @@ export class InputFormComponent implements OnInit {
     })
 
     this.sharedService.text$.subscribe(x => {
-      console.log("text subscribe is working " + x);
       this.feelsLikeText = x;
     })
     

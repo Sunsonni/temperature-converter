@@ -9,45 +9,51 @@ export class SharedService {
   private eventSource = new Subject<Button>();
   private barColor = new Subject<string>();
   private feelsLikeText = new Subject<string>();
+  private sliderValue = new Subject<number>();
+
   event$ = this.eventSource.asObservable();
   color$ = this.barColor.asObservable();
   text$ = this.feelsLikeText.asObservable();
+  sliderValue$ = this.sliderValue.asObservable();
 
 
   buttonValues: Button[] = [
-    { name: "Not even possible buddy", default: '-500', barColor: '#3345ff'},
     { name: "Absolute Zero", default: '-459', barColor: '#3376ff'},
     { name: "Frozen", default: '30', barColor: '#33b3ff'},
-    { name: "Sweater Weather", default: '40', barColor: '#33ffe8'},
     { name: "Nice", default: '72', barColor: '#33ffbd'},
     { name: "Hot", default: '90', barColor: '#e4ff33'},
-    { name: "A fever for adults", default: '100', barColor: '#ffe133'},
     { name: "Boiling", default: '212', barColor: '#ffac33'},
-    { name: "The sun's revenge", default: '500', barColor: '#ff3333'},
     { name: "Random", default: "", barColor: ''},
   ]
-
-  // this.randomNumber()
 
   getButtons() {
     return this.buttonValues;
   }
 
+  getSliderValue() {
+    return this.sliderValue;
+  }
+
   emitToService(item: Button) {
     if(item.name === 'Random') {
       const randomValue = this.boxMullerRandomNum().toString();
-      console.log(randomValue);
       const barColor = this.getBarColorFromValue(randomValue);
-    
+
+      const randomButton: Button = {
+          name: item.name,
+          default: randomValue,
+          barColor: barColor
+      }
+
+      //Note for Sonnie: randomButton needed to set values in calculator
+      this.eventSource.next(randomButton);
       this.barColor.next(barColor);
       this.feelsLike(randomValue);
-      console.log('random is running. feels like is ' + this.feelsLikeText);
 
     } else {
       this.eventSource.next(item);
       this.barColor.next(item.barColor);
       this.feelsLike(item.default);
-      console.log("other section running. Feels like is " + item.default);
     }
 
   }
@@ -79,7 +85,7 @@ export class SharedService {
     const f  = parseFloat(value);
     this.feelsLike(value);
     //not possible
-    if (f < -459.67) return '#3345ff'; 
+    if (f < -459.67) return 'rgb(0, 0, 255)'; 
     //absolute zero
     if (-459.67 <= f && f < 32) return '#3376ff';
     //Frozen
@@ -111,5 +117,4 @@ export class SharedService {
     if (f == 212) this.feelsLikeText.next("Boiling");
     if (f > 212) this.feelsLikeText.next("The sun's revenge");
   }
-  
 }
