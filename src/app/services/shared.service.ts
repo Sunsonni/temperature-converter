@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Button } from '../interfaces/button';
+import { tempToColor } from 'temp-color';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,14 @@ export class SharedService {
   text$ = this.feelsLikeText.asObservable();
   sliderValue$ = this.sliderValue.asObservable();
 
-
+//TO DO: Fix button values from hex to rgb
   buttonValues: Button[] = [
-    { name: "Absolute Zero", default: '-459', barColor: '#3376ff'},
-    { name: "Frozen", default: '30', barColor: '#33b3ff'},
-    { name: "Nice", default: '72', barColor: '#33ffbd'},
-    { name: "Hot", default: '90', barColor: '#e4ff33'},
-    { name: "Boiling", default: '212', barColor: '#ffac33'},
-    { name: "Random", default: "", barColor: ''},
+    { name: "Absolute Zero", default: '-459'},
+    { name: "Frozen", default: '30'},
+    { name: "Nice", default: '72'},
+    { name: "Hot", default: '90'},
+    { name: "Boiling", default: '212'},
+    { name: "Random", default: ""},
   ]
 
   getButtons() {
@@ -41,8 +42,7 @@ export class SharedService {
 
       const randomButton: Button = {
           name: item.name,
-          default: randomValue,
-          barColor: barColor
+          default: randomValue
       }
 
       //Note for Sonnie: randomButton needed to set values in calculator
@@ -52,14 +52,16 @@ export class SharedService {
 
     } else {
       this.eventSource.next(item);
-      this.barColor.next(item.barColor);
+      this.barColor.next(this.getBarColorFromValue(item.default));
       this.feelsLike(item.default);
     }
 
   }
 
   setFeelsLikeAndColor(value: string) {
-    this.barColor.next(this.getBarColorFromValue(value));
+    let temporary = this.getBarColorFromValue(value);
+    this.barColor.next(temporary);
+    console.log(temporary);
     this.feelsLike(value);
   }
 
@@ -84,24 +86,8 @@ export class SharedService {
   private getBarColorFromValue(value: string): string {
     const f  = parseFloat(value);
     this.feelsLike(value);
-    //not possible
-    if (f < -459.67) return 'rgb(0, 0, 255)'; 
-    //absolute zero
-    if (-459.67 <= f && f < 32) return '#3376ff';
-    //Frozen
-    if (32 <= f && f <= 50) return '#33b3ff';
-    //Sweater Weather
-    if (50 < f && f <= 72) return '#33ffe8';
-    //Nice
-    if (72 < f && f <= 90) return '#e4ff33';
-    //Hot
-    if (90 < f && f < 100) return '#ffe113';
-    //A fever for adults
-    if (100 <= f && f < 212) return '#ffe133';
-    //Boiling
-    if (f == 212) return '#ffac33';
-    //The sun's revenge
-    return '#ff3333';
+   const { r, g, b } = tempToColor(f, -500, 300);
+   return `rgb(${r}, ${g}, ${b})`;
   }
 
   public feelsLike(value: string) {
@@ -117,4 +103,5 @@ export class SharedService {
     if (f == 212) this.feelsLikeText.next("Boiling");
     if (f > 212) this.feelsLikeText.next("The sun's revenge");
   }
+
 }
